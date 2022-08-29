@@ -1,26 +1,31 @@
-import { execute, executeWithSync } from "./utils.js";
-import { renameSync } from 'node:fs'
+import { executeWithSync, getUserInput, getUserOption } from './utils.js';
+import { renameSync } from 'node:fs';
 
-const init = () => {
+const init = async (config = {}) => {
+	const defaultConfig = {
+		currPath: './cross-web'
+	};
 
-  const currPath = "./cross-web"
-  const newPath = "./new-directory-name"
+	if (Object.keys(config).length === 0) Object.assign(config, defaultConfig);
 
-  try {
-    // mkdirSync(currPath, { recursive: true })
-    executeWithSync('git clone https://github.com/srav001/cross-web.git')
-    renameSync(currPath, newPath)
-    executeWithSync(`cd ${newPath} && pnpm project-setup`)
-    console.log("Successfully renamed the directory.")
-  } catch(err) {
-    console.error(err)
-  }
+	try {
+		const newPath = await getUserInput();
 
-  console.log('done')
-}
+		const pckgMngr = await getUserOption();
+		const setupCommandPrefix = pckgMngr === 'npm' ? 'npm run' : pckgMngr;
+
+		executeWithSync('git clone https://github.com/srav001/cross-web.git');
+		renameSync(config.currPath, newPath);
+
+		executeWithSync(`cd ${newPath} && ${setupCommandPrefix} project-setup`);
+	} catch (err) {
+		console.error(err);
+	}
+
+	console.log('done!');
+	process.exit(0);
+};
 
 init();
 
-export {
-  init
-}
+export { init };

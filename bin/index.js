@@ -1,3 +1,6 @@
-import { init } from '../src/main.js';
+#!/usr/bin/env node
 
-init();
+import { init } from '../src/main.js';
+import { config } from './config.js';
+
+init(config);

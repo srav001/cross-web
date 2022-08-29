@@ -6,7 +6,7 @@ import { execute } from '../src/utils.js';
  */
 const setup = () =>
 	execute(
-		`pnpm install && rm -rf .husky && npx husky install && npx husky add .husky/commit-msg 'npx --no -- commitlint --verbose --edit $1'`
+		'pnpm install && rm -rf .husky && npx husky install && npx husky add .husky/commit-msg \'npx --no -- commitlint --verbose --edit $1\''
 	);
 
 // House keeping
