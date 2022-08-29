@@ -1,5 +1,5 @@
 import { executeWithSync, getUserInput, getUserOption } from './utils.js';
-import { renameSync, rmSync } from 'node:fs';
+import { fsRm, fsRename, updateJsonFile } from './files.js';
 
 const init = async (
 	config = {
@@ -8,21 +8,56 @@ const init = async (
 	}
 ) => {
 	try {
-		const newPath = await getUserInput();
+		const projectName = await getUserInput();
 
 		const pckgMngr = await getUserOption();
-		const setupCommandPrefix = pckgMngr === 'npm' ? 'npm run' : pckgMngr;
+		const pckgMngrCommandPrefix = pckgMngr === 'npm' ? 'npm run' : pckgMngr;
 
 		executeWithSync(`git clone ${config.starterTemplate}`);
-		renameSync('cross-web', newPath);
+		fsRename('cross-web', projectName);
 
 		config.filesToRemove.forEach(file => {
-			rmSync(`${newPath}/${file}`, { recursive: true, force: true });
+			fsRm(`${projectName}/${file}`);
 		});
 
-		executeWithSync(`cd ${newPath} && ${setupCommandPrefix} project-setup`);
+		const valuesToUpateInPackageJSON = {
+			toDelete: ['repository', 'author', 'license', 'homepage', 'bugs'],
+			toReplace: [
+				{
+					key: 'name',
+					value: projectName
+				}
+			]
+		};
+
+		updateJsonFile(`${projectName}/package.json`, valuesToUpateInPackageJSON);
+
+		const valuesToUpateInTauriJSON = {
+			toReplace: [
+				{
+					key: 'package.productName',
+					value: projectName,
+					deep: true
+				},
+				{
+					key: 'build.beforeDevCommand',
+					value: `${pckgMngrCommandPrefix} dev`,
+					deep: true
+				},
+				{
+					key: 'build.beforeBuildCommand',
+					value: `${pckgMngrCommandPrefix} build`,
+					deep: true
+				}
+			]
+		};
+
+		updateJsonFile(`${projectName}/src-tauri/tauri.conf.json`, valuesToUpateInTauriJSON);
+
+		executeWithSync(`cd ${projectName} && ${pckgMngrCommandPrefix} install`);
 	} catch (err) {
 		console.error(err);
+		process.exit(1);
 	}
 
 	console.log('done!');
