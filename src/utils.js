@@ -33,6 +33,12 @@ const getUserInput = async (question = 'Enter project name ?') => {
 	return output.userInput;
 };
 
+/**
+ * It asks the user a question and returns the answer
+ * @param [question=Choose your package manager ?] - The question that will be asked to the user.
+ * @param [options] - The options that the user can choose from.
+ * @returns The user's choice from the list of options.
+ */
 const getUserOption = async (question = 'Choose your package manager ?', options = ['npm', 'pnpm']) => {
 	const output = await inquirer.prompt({
 		name: 'userInput',
@@ -40,7 +46,6 @@ const getUserOption = async (question = 'Choose your package manager ?', options
 		message: question,
 		choices: options
 	});
-	console.log(output);
 	return output.userInput;
 };
 
