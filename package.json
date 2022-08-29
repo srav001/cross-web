@@ -1,0 +1,37 @@
+{
+  "name": "cross-vue",
+  "version": "0.0.1",
+  "description": "A vue starter pack creator CLI tool",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/srav001/cross-vue"
+  },
+  "main": "src/main.js",
+  "bin": "./bin/index.js",
+  "scripts": {
+    "start": "node .",
+    "project-setup": "node -e 'import(\"./scripts/project.js\").then(scripts => scripts.setup());'"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "chalk-animation": "^1.6.0",
+    "figlet": "^1.5.2",
+    "gradient-string": "^2.0.0",
+    "inquirer": "^8.2.0",
+    "nanospinner": "^1.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.23.0",
+    "eslint-config-prettier": "^8.5.0",
+    "prettier": "^2.7.1",
+    "@commitlint/cli": "^17.0.3",
+		"@commitlint/config-conventional": "^17.0.3",
+    "husky": "^8.0.1"
+  },
+  "engines": {
+    "node": ">= 14.0.0",
+    "npm": ">= 6.0.0",
+    "pnpm": ">= 6.0.0"
+  }
+}
