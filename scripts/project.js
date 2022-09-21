@@ -16,10 +16,10 @@ const setup = () =>
  */
 const format = () => execute('npx prettier ./src ./scripts -w');
 /**
- * `lint` runs `eslint` on all `.js`, `.ts`, and `.vue` files in the `src` and `scripts` directories,
+ * `lint` runs `eslint` on all `.js` files in the `src` and `scripts` directories,
  * ignoring files in the `.gitignore` file, and fixes any errors it finds
  */
-const lint = () => execute('npx eslint --ext .js,.ts,.vue --ignore-path .gitignore --fix src scripts');
+const lint = () => execute('npx eslint --ext .js --ignore-path .gitignore --fix src scripts');
 
 export {
 	setup,

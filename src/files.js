@@ -39,7 +39,7 @@ const updateJsonFile = (filePath = 'package.json', keyValues = {}) => {
 			}
 		});
 	}
-
+ 
 	return writeFileSync(fileToEditPath, JSON.stringify(dataToEdit, null, 2));
 };
 

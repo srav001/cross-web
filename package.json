@@ -1,11 +1,11 @@
 {
-  "name": "cross-vue",
+  "name": "cross-web",
   "version": "0.0.1",
   "description": "A vue starter pack creator CLI tool",
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "https://github.com/srav001/cross-vue"
+    "url": "https://github.com/srav001/cross-web"
   },
   "main": "src/main.js",
   "bin": "./bin/index.js",
