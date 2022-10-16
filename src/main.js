@@ -1,60 +1,41 @@
-import { executeWithSync, getUserInput, getUserOption } from './utils.js';
 import { fsRm, fsRename, updateJsonFile } from './files.js';
+import { pckgMngrsData, defaultPckgJSONconfig } from './defaults.js';
+import { execWithSync, getUserInput, getUserOption } from './utils.js';
 
 const init = async (config = {}) => {
 	if (config === {}) {
 		console.log('oops...empty paramenters!');
-		process.exit(0);
+		process.exit(1);
 	}
+	const starterProjects = Object.keys(config);
+
+	const pckgMngrs = Object.keys(pckgMngrsData);
+
 	try {
+		const projectName = await getUserInput('Enter project name :', 'starter-template');
+		defaultPckgJSONconfig.toReplace[0].value = projectName;
 
-		const projectName = await getUserInput();
+		const pckgMngr = await getUserOption('Choose your package manager', pckgMngrs);
+		const pckgMngrCommandPrefix = `${pckgMngr} ${pckgMngrsData[pckgMngr].prefix}`;
 
-		const pckgMngr = await getUserOption();
-		const pckgMngrCommandPrefix = pckgMngr === 'npm' ? 'npm run' : pckgMngr;
+		const starterName = await getUserOption('Choose your starter template', starterProjects);
 
-		executeWithSync(`git clone ${config.url}`);
-		fsRename('cross-vue', projectName);
+		execWithSync(`git clone ${config.url}`);
+		fsRename(starterName, projectName);
 
 		config.filesToRemove.forEach(file => {
 			fsRm(`${projectName}/${file}`);
 		});
 
-		const valuesToUpateInPackageJSON = {
-			toDelete: ['repository', 'author', 'license', 'homepage', 'bugs'],
-			toReplace: [
-				{
-					key: 'name',
-					value: projectName
-				}
-			]
-		};
+		const valuesToUpateInPckgJSON = defaultPckgJSONconfig;
 
-		updateJsonFile(`${projectName}/package.json`, valuesToUpateInPackageJSON);
+		updateJsonFile(`${projectName}/package.json`, valuesToUpateInPckgJSON);
 
-		const valuesToUpateInTauriJSON = {
-			toReplace: [
-				{
-					key: 'package.productName',
-					value: projectName,
-					deep: true
-				},
-				{
-					key: 'build.beforeDevCommand',
-					value: `${pckgMngrCommandPrefix} dev`,
-					deep: true
-				},
-				{
-					key: 'build.beforeBuildCommand',
-					value: `${pckgMngrCommandPrefix} build`,
-					deep: true
-				}
-			]
-		};
+		// const valuesToUpateInTauriJSON = config.
 
-		updateJsonFile(`${projectName}/src-tauri/tauri.conf.json`, valuesToUpateInTauriJSON);
+		// updateJsonFile(`${projectName}/src-tauri/tauri.conf.json`, valuesToUpateInTauriJSON);
 
-		executeWithSync(`cd ${projectName} && ${pckgMngrCommandPrefix} install`);
+		execWithSync(`cd ${projectName} && ${pckgMngrCommandPrefix} install`);
 	} catch (err) {
 		console.error(err);
 		process.exit(1);

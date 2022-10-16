@@ -11,7 +11,7 @@
   "bin": "./bin/index.js",
   "scripts": {
     "dev": "NODE_ENV=dev node .",
-    "preview": "NODE_ENV=production node .",
+    "preview": "NODE_ENV=production node ./bin/index.js",
     "project-setup": "node -e 'import(\"./scripts/project.js\").then(scripts => scripts.setup());'"
   },
   "dependencies": {

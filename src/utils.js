@@ -14,20 +14,20 @@ const execute = command =>
 /**
  * It executes a command with sync and prints the output to the console
  */
-const executeWithSync = command => execSync(command, { stdio: 'inherit' });
+const execWithSync = command => execSync(command, { stdio: 'inherit' });
 
 /**
  * It asks the user a question, and returns the answer
- * @param [question=Enter project name?] - The question that will be asked to the user.
+ * @param [question=Enter user input?] - The question that will be asked to the user.
  * @returns The user input from the inquirer prompt.
  */
-const getUserInput = async (question = 'Enter project name ?') => {
+const getUserInput = async (question = 'Enter input :', defaultAnswer = 'default') => {
 	const output = await inquirer.prompt({
 		name: 'userInput',
 		type: 'input',
 		message: question,
 		default() {
-			return 'starter-template';
+			return defaultAnswer;
 		}
 	});
 	return output.userInput;
@@ -35,11 +35,11 @@ const getUserInput = async (question = 'Enter project name ?') => {
 
 /**
  * It asks the user a question and returns the answer
- * @param [question=Choose your package manager ?] - The question that will be asked to the user.
+ * @param [question=Question here ?] - The question that will be asked to the user.
  * @param [options] - The options that the user can choose from.
  * @returns The user's choice from the list of options.
  */
-const getUserOption = async (question = 'Choose your package manager ?', options = ['pnpm', 'npm']) => {
+const getUserOption = async (question = 'Question here', options = ['op1', 'op2']) => {
 	const output = await inquirer.prompt({
 		name: 'userInput',
 		type: 'list',
@@ -49,4 +49,4 @@ const getUserOption = async (question = 'Choose your package manager ?', options
 	return output.userInput;
 };
 
-export { execute, executeWithSync, getUserInput, getUserOption };
+export { execute, execWithSync, getUserInput, getUserOption };

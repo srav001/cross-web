@@ -3,12 +3,23 @@ export const config = {
 		url: 'https://github.com/srav001/cross-vue.git',
 		filesToRemove: ['LICENSE', 'README.md', '.git'],
 		jsonsToUpdate: {
-			package: {
+			'tauri.conf': {
 				toDelete: ['repository', 'author', 'license', 'homepage', 'bugs'],
 				toReplace: [
 					{
-						key: 'name',
-						value: ''
+						key: 'package.productName',
+						value: '',
+						deep: true
+					},
+					{
+						key: 'build.beforeDevCommand',
+						value: 'pckgMngrCommandPrefix dev',
+						deep: true
+					},
+					{
+						key: 'build.beforeBuildCommand',
+						value: 'pckgMngrCommandPrefix} build',
+						deep: true
 					}
 				]
 			}

@@ -1,0 +1,25 @@
+/**
+ * A config object that is used to update the common values in package.json file.
+ * Can be expanded if needed
+ * */
+export const defaultPckgJSONconfig = {
+	toDelete: ['repository', 'author', 'license', 'homepage', 'bugs'],
+	toReplace: [
+		{
+			key: 'name',
+			value: ''
+		}
+	]
+};
+
+export const pckgMngrsData = {
+	npm: {
+		prefix: 'run'
+	},
+	pnpm: {
+		prefix: ''
+	},
+	yarn: {
+		prefix: ''
+	}
+};
