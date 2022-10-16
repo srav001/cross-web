@@ -1,4 +1,18 @@
 export const config = {
-	starterTemplate: 'https://github.com/srav001/cross-web.git',
-	filesToRemove: ['LICENSE', 'README.md', '.git']
+	'cross-vue': {
+		url: 'https://github.com/srav001/cross-vue.git',
+		filesToRemove: ['LICENSE', 'README.md', '.git'],
+		jsonsToUpdate: {
+			package: {
+				toDelete: ['repository', 'author', 'license', 'homepage', 'bugs'],
+				toReplace: [
+					{
+						key: 'name',
+						value: ''
+					}
+				]
+			}
+		}
+	},
+	'next-one': {}
 };

@@ -1,20 +1,20 @@
 import { executeWithSync, getUserInput, getUserOption } from './utils.js';
 import { fsRm, fsRename, updateJsonFile } from './files.js';
 
-const init = async (
-	config = {
-		starterTemplate: 'https://github.com/srav001/cross-web.git',
-		filesToRemove: ['LICENSE', 'README.md', '.git']
+const init = async (config = {}) => {
+	if (config === {}) {
+		console.log('oops...empty paramenters!');
+		process.exit(0);
 	}
-) => {
 	try {
+
 		const projectName = await getUserInput();
 
 		const pckgMngr = await getUserOption();
 		const pckgMngrCommandPrefix = pckgMngr === 'npm' ? 'npm run' : pckgMngr;
 
-		executeWithSync(`git clone ${config.starterTemplate}`);
-		fsRename('cross-web', projectName);
+		executeWithSync(`git clone ${config.url}`);
+		fsRename('cross-vue', projectName);
 
 		config.filesToRemove.forEach(file => {
 			fsRm(`${projectName}/${file}`);
@@ -64,6 +64,11 @@ const init = async (
 	process.exit(0);
 };
 
-init();
+if (process.env.NODE_ENV === 'dev') {
+	(async () => {
+		const config = await (await import('../bin/config.js')).config;
+		init(config);
+	})();
+}
 
 export { init };
