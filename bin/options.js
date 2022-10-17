@@ -1,4 +1,4 @@
-export const config = {
+export const options = {
 	'cross-vue': {
 		url: 'https://github.com/srav001/cross-vue.git',
 		filesToRemove: ['LICENSE', 'README.md', '.git'],

@@ -8,16 +8,20 @@ export const defaultPckgJSONconfig = {
 		{
 			key: 'name',
 			value: ''
+		},
+		{
+			key: 'version',
+			value: '0.0.1'
 		}
 	]
 };
 
 export const pckgMngrsData = {
-	npm: {
-		prefix: 'run'
-	},
 	pnpm: {
 		prefix: ''
+	},
+	npm: {
+		prefix: 'run'
 	},
 	yarn: {
 		prefix: ''
